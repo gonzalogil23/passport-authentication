@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./socket.io/socket.io.js"></script>
+    <script src="/client.js"></script>
+    <script src="/public/session.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="login">
+        <form class="row g-3 m-2" action="/login" method="post">
+            <label for="colFormLabelLg" class="col-sm col-form-label col-form-label-lg">Ingrese su nombre</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control form-control-lg" name="nombre" id="colFormLabelLg">
+            </div>
+            <button type="submit" class="btn btn-primary" id="loginButton">Enviar</button>
+        </form>
+        <div class="container my-5">
+
+            <h1>Ingrese su usuario</h1>
+            <form class="form" role="form" action="/login" method="post" autocomplete="off">
+
+                <div class="form-group">
+                    <input name='username' placeholder="Nombre" class="form-control" type="text" required>
+                </div>
+                <div class="form-group">
+                    <input name='password' placeholder="Contraseña" class="form-control" type="password" required>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-success my-3" type="submit" value="Login">
+                </div>
+            </form>
+
+            <hr>
+            <div class="text-center"></div>
+            <a href="./signup.html">Registrarse</a>
+            <form class="form" role="form" action="/logout" method="get">
+                <input type="button" value="Logout">
+            </form>
+        </div>
+    </div>
+    <br>
+    <form method="post" action="/productos/guardar" class="container flex-md-column d-flex align-items-center">
+        <fieldset>
+            <legend>Producto</legend>
+            Nombre del Producto:<input name="title" type="text">
+            Precio:<input name="price" type="number">
+            Insertar Thumbnail<input name="thumbnail" type="text">
+        </fieldset>
+        <input type="submit" value="Agregar producto">
+    </form>
+    <table class="table container">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Price</th>
+                <th scope="col">Thumbnail</th>
+            </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+    </table>
+    <br>
+    <div id="compression"></div>
+    <div id='chat'></div>
+    <form onsubmit=" return mensaje(this)" class="container flex-md-column d-flex align-items-center p-1">
+        <label for="mail">Ingrese su e-mail</label>
+        <input type="text" name='mail' id="mail">
+        <label for="name">Ingrese su nombre</label>
+        <input type="text" name='name' id="name">
+        <label for="lastname">Ingrese su apellido</label>
+        <input type="text" name='lastname' id="lastname">
+        <label for="alias">Ingrese su alias</label>
+        <input type="text" name='alias' id="alias">
+        <label for="age">Ingrese su edad</label>
+        <input type="number" name='age' id="age">
+        <input type="text" name='message' id="message" placeholder="Intrese su mensaje...">
+        <button type="submit">Enviar</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+        integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+        integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
