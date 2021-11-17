@@ -19,8 +19,8 @@ function postLogin(req, res) {
 }
 function postSignup(req, res) {
   let user = req.body;
-
-  res.sendFile(__dirname + "../public/index.html");
+  res.redirect("/");
+  // res.sendFile(__dirname + "../public/index.html");
 }
 
 function getSignup(req, res) {
@@ -29,7 +29,7 @@ function getSignup(req, res) {
 
 function getLogout(req, res) {
   req.logout();
-  res.sendFile(__dirname + "../public/index.html");
+  res.redirect("/");
 }
 function getFaillogin(req, res) {
   console.log("error en login");

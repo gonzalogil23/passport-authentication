@@ -5,11 +5,12 @@ let { productosRouter } = require("./routes/productos.js");
 let { Productos } = require("./models/productos.js");
 let { CRUDproductos } = require("./db/productos.js");
 let cookieParser = require("cookie-parser");
-const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const bCrypt = require("bCrypt");
 
+const session = require("express-session");
 const http = require("http").Server(app);
 const PORT = 8080;
 
@@ -21,8 +22,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./public"));
-app.use(passport.initialize());
-app.use(passport.session());
 const io = require("socket.io")(http);
 
 app.use("/productos", productosRouter);
@@ -46,6 +45,22 @@ app.use("/productos", productosRouter);
 // );
 
 // *** PASSPORT *** //
+app.use(
+  session({
+    secret: "124356",
+    cookie: {
+      httpOnly: false,
+      secure: false,
+      maxAge: 20000,
+    },
+    rolling: true,
+    resave: true,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 let { Usuarios } = require("./models/login.js");
 const {
   getLogin,
@@ -70,7 +85,8 @@ passport.use(
           console.log(`Usuario ${username} no encontrado`);
           return done(null, false, console.log("message", "User Not found."));
         }
-        if (!isValidPassword(user, password)) {
+        if (!isValidPassword(user, user.password)) {
+          console.log(password, user);
           console.log("Invalid Password");
           return done(null, false, console.log("message", "Invalid Password"));
         }
@@ -79,6 +95,9 @@ passport.use(
     }
   )
 );
+let isValidPassword = function (user, password) {
+  return bCrypt.compareSync(password, user.password);
+};
 
 passport.use(
   "signup",
@@ -164,7 +183,7 @@ async function ConectandoaBD() {
       useUnifiedTopology: true,
     });
     await Productos.deleteMany({});
-    await Productos.insertMany(this.products, (error) => {
+    await Productos.insertMany(db.products, (error) => {
       if (error) {
         throw ` Error al grabar productos ${error}`;
       } else {
