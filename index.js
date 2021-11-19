@@ -123,7 +123,7 @@ passport.use(
             let newUser = new Usuarios();
 
             newUser.username = username;
-            newUser.password = password;
+            newUser.password = hash(password);
             newUser.email = req.body.email;
 
             newUser.save(function (err) {
@@ -150,6 +150,10 @@ passport.deserializeUser(function (id, done) {
     done(err, user);
   });
 });
+
+let hash = function (password) {
+  return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+};
 
 app.get("/login", getLogin);
 app.post(
